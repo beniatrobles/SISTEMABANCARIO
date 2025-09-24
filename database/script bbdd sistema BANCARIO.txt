@@ -1,0 +1,69 @@
+CREATE TABLE tb_cliente (
+  idCliente INT AUTO_INCREMENT PRIMARY KEY,
+  nombre VARCHAR(50) NOT NULL,
+  apellido VARCHAR(50) NOT NULL,
+  dni VARCHAR(20) UNIQUE NOT NULL,
+  telefono VARCHAR(15),
+  email VARCHAR(100) UNIQUE,
+  fechaRegistro DATE
+);
+
+CREATE TABLE tb_cuenta(
+	idCuenta INT AUTO_INCREMENT PRIMARY KEY,
+    idCliente INT,
+    numeroCuenta VARCHAR(20) UNIQUE,
+    saldo DECIMAL(15,2),
+    estado INT,
+    fechaApertura DATE,
+    
+    FOREIGN KEY (idCliente) REFERENCES tb_cliente(idCliente) ON UPDATE CASCADE
+    ON DELETE RESTRICT
+);
+
+CREATE TABLE tb_transaccion(
+	idTransaccion INT AUTO_INCREMENT PRIMARY KEY,
+    idCuentaOrigen INT NULL,
+    idCuentaDestino INT NULL,
+    tipo VARCHAR(20),
+    monto DECIMAL(15,2),
+    fecha DATETIME DEFAULT CURRENT_TIMESTAMP,
+    
+    FOREIGN KEY (idCuentaOrigen) REFERENCES tb_cuenta(idCuenta) ON UPDATE CASCADE 
+  ON DELETE RESTRICT,
+     FOREIGN KEY (idCuentaDestino) REFERENCES tb_cuenta(idCuenta) ON UPDATE CASCADE 
+  ON DELETE RESTRICT
+);
+
+CREATE TABLE tb_usuario(
+	idUsuario INT AUTO_INCREMENT PRIMARY KEY,
+    idCliente INT,
+    usuario VARCHAR(50) UNIQUE,
+    password VARCHAR(50),
+    estado INT,
+    
+    FOREIGN KEY (idCliente) REFERENCES tb_cliente(idCliente) ON UPDATE CASCADE
+    ON DELETE RESTRICT
+
+
+);
+
+INSERT INTO tb_cliente (nombre, apellido, dni, telefono, email, fechaRegistro) VALUES
+('Ana', 'Pérez', '12345678', '555-1234', 'ana.perez@gmail.com', '2025-09-24'),
+('Luis', 'Gómez', '87654321', '555-5678', 'luis.gomez@gmail.com', '2025-09-24'),
+('María', 'López', '11223344', '555-9012', 'maria.lopez@gmail.com', '2025-09-24');
+
+INSERT INTO tb_cuenta (idCliente, numeroCuenta, saldo, estado, fechaApertura) VALUES
+(1, '1001-0001', 1500.00, 1, '2025-09-24'),
+(2, '1002-0002', 2500.50, 1, '2025-09-24'),
+(3, '1003-0003', 500.75, 1, '2025-09-24');
+
+INSERT INTO tb_usuario (idCliente, usuario, password, estado) VALUES
+(1, 'ana123', 'passwordAna', 1),
+(2, 'luis456', 'passwordLuis', 1),
+(3, 'maria789', 'passwordMaria', 1);
+
+INSERT INTO tb_transaccion (idCuentaOrigen, idCuentaDestino, tipo, monto, fecha) VALUES
+(1, 2, 'TRANSFERENCIA', 200.00, '2025-09-24 10:30:00'),
+(2, 3, 'TRANSFERENCIA', 500.50, '2025-09-24 11:00:00'),
+(NULL, 1, 'DEPOSITO', 1000.00, '2025-09-24 12:00:00'),
+(3, NULL, 'RETIRO', 200.00, '2025-09-24 12:30:00');
