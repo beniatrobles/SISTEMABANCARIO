@@ -7,6 +7,8 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import controlador.Ctrl_Usuario;
+import modelo.Cliente;
+import modelo.Sesion;
 import modelo.Usuario;
 
 import java.awt.Color;
@@ -114,12 +116,13 @@ public class FrmLogin extends JFrame implements ActionListener {
 			usuario.setUsuario(txtUsuario.getText().trim());
 			usuario.setPassword(txtPassword.getText().trim());
 
-			if (controlUsuario.loginUser(usuario)) {
-				JOptionPane.showMessageDialog(null, "Login correcto");
-				menu = new FrmMenu();
-				menu.setVisible(true);
-				this.dispose();
+			if (controlUsuario.loginUser(txtUsuario.getText(), txtPassword.getText())) {
+			    Cliente cliente = Sesion.getClienteActual();
+			    JOptionPane.showMessageDialog(null, "Bienvenid@ " + cliente.getNombre() + " " + cliente.getApellido());
 
+			    FrmMenu menu = new FrmMenu();
+			    menu.setVisible(true);
+			    this.dispose();
 			} else {
 				JOptionPane.showMessageDialog(null, "Usuario o password incorrectos");
 				txtUsuario.setText("");
