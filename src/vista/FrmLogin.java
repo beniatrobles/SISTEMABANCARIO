@@ -118,7 +118,7 @@ public class FrmLogin extends JFrame implements ActionListener {
 
 			if (controlUsuario.loginUser(txtUsuario.getText(), txtPassword.getText())) {
 			    Cliente cliente = Sesion.getClienteActual();
-			    JOptionPane.showMessageDialog(null, "Bienvenid@ " + cliente.getNombre() + " " + cliente.getApellido());
+			    JOptionPane.showMessageDialog(null, "Login Correcto \nBienvenid@ " + cliente.getNombre() + " " + cliente.getApellido());
 
 			    FrmMenu menu = new FrmMenu();
 			    menu.setVisible(true);

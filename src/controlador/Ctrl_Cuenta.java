@@ -33,5 +33,29 @@ public class Ctrl_Cuenta {
 		return respuesta;
 		
 	}
+	
+	public boolean actualizarSaldo(Cuenta cuenta) {
+		boolean respuesta = false;
+	    Connection cn = Conexion.conectar();
+	    
+	    try {
+	    	
+	    	PreparedStatement pst = cn.prepareStatement(
+		            "UPDATE tb_cuenta SET saldo=? WHERE idCuenta=?"
+		        );
+	    	
+	    	pst.setDouble(1, cuenta.getSaldo());
+	    	pst.setInt(2,cuenta.getIdCuenta());
+	    	
+	    	 if (pst.executeUpdate() > 0) {
+		            respuesta = true;
+		        }
+			
+		} catch (SQLException e) {
+	        System.out.println("Error  actualizar saldo: " + e);
+	    }
+	    
+	    return respuesta;
+	}
 
 }

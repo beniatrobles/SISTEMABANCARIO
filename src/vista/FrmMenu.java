@@ -104,6 +104,7 @@ public class FrmMenu extends JFrame implements ActionListener {
 
 		mntmIngresosCajero = new JMenuItem("Ingreso / Retirada ");
 		mntmIngresosCajero.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+		mntmIngresosCajero.addActionListener(this);
 		mnCajero.add(mntmIngresosCajero);
 
 		menuBar.add(Box.createHorizontalGlue());
@@ -129,6 +130,12 @@ public class FrmMenu extends JFrame implements ActionListener {
 			InterPerfil interPerfil = new InterPerfil();
 			escritorio.add(interPerfil);
 			interPerfil.setVisible(true);
+		}
+		
+		if(e.getSource() == mntmIngresosCajero) {
+			InterCajero interCajero = new InterCajero();
+			escritorio.add(interCajero);
+			interCajero.setVisible(true);
 		}
 
 	}
