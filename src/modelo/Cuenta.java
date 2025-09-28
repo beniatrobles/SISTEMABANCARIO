@@ -75,6 +75,11 @@ public class Cuenta {
 	public void setFechaApertura(String fechaApertura) {
 		this.fechaApertura = fechaApertura;
 	}
+
+	@Override
+	public String toString() {
+	    return numeroCuenta + " | Saldo: $" + saldo;
+	}
 	
 	
 
