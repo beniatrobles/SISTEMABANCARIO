@@ -17,16 +17,19 @@ import java.sql.Statement;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JTextField;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import conexion.Conexion;
 import controlador.Ctrl_Cliente;
+import controlador.Ctrl_Cuenta;
 import modelo.Cliente;
 import modelo.Cuenta;
 import modelo.Sesion;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 
-public class InterPerfil extends JInternalFrame implements ActionListener{
+public class InterPerfil extends JInternalFrame implements ActionListener,ListSelectionListener{
 
 	private static final long serialVersionUID = 1L;
 	private JTextField txtNombreCliente;
@@ -151,6 +154,7 @@ public class InterPerfil extends JInternalFrame implements ActionListener{
 
 		listCuentas = new JList<Cuenta>();
 		listCuentas.setBackground(new Color(192, 192, 192));
+		listCuentas.addListSelectionListener(this);
 		listCuentas.setBounds(18, 52, 204, 299);
 		panel_1.add(listCuentas);
 
@@ -160,6 +164,8 @@ public class InterPerfil extends JInternalFrame implements ActionListener{
 		btnEliminarCuenta = new JButton("Eliminar Cuenta");
 		btnEliminarCuenta.setFont(new Font("Tahoma", Font.BOLD, 11));
 		btnEliminarCuenta.setBackground(new Color(255, 51, 51));
+		btnEliminarCuenta.addActionListener(this);
+		btnEliminarCuenta.setEnabled(false);
 		btnEliminarCuenta.setBounds(56, 362, 129, 23);
 		panel_1.add(btnEliminarCuenta);
 
@@ -192,6 +198,7 @@ public class InterPerfil extends JInternalFrame implements ActionListener{
 
 			while (rs.next()) {
 				Cuenta cuenta = new Cuenta();
+				cuenta.setIdCuenta(rs.getInt("idCuenta"));
 			    cuenta.setNumeroCuenta(rs.getString("numeroCuenta"));
 			    cuenta.setSaldo(rs.getDouble("saldo"));
 			    cuenta.setFechaApertura(rs.getString("fechaApertura"));
@@ -213,6 +220,27 @@ public class InterPerfil extends JInternalFrame implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
+		
+		if(e.getSource() == btnEliminarCuenta) {
+			Ctrl_Cuenta controlCuenta = new Ctrl_Cuenta();
+			Cuenta seleccionada = listCuentas.getSelectedValue();
+			
+			 int confirm = JOptionPane.showConfirmDialog(null,
+			            "¿Seguro que deseas eliminar la cuenta " + seleccionada.getNumeroCuenta() + "?",
+			            "Confirmar eliminación", JOptionPane.YES_NO_OPTION);
+			 
+			 if (confirm == JOptionPane.YES_OPTION) {
+		            
+		            if (controlCuenta.eliminar(seleccionada)) {
+		                JOptionPane.showMessageDialog(null, "Cuenta eliminada correctamente");
+		                
+		                // Borrarla también del modelo de la lista
+		                modeloLista.removeElement(seleccionada);
+		            } else {
+		                JOptionPane.showMessageDialog(null, "Error al eliminar la cuenta");
+		            }
+			 }
+		}
 		
 		if(e.getSource() == btnActualizar) {
 			Ctrl_Cliente controlCliente = new Ctrl_Cliente();
@@ -250,6 +278,18 @@ public class InterPerfil extends JInternalFrame implements ActionListener{
 			
 			
 			
+		}
+		
+	}
+
+	@Override
+	public void valueChanged(ListSelectionEvent e) {
+		// TODO Auto-generated method stub
+		
+		if(e.getValueIsAdjusting()) {
+			Cuenta seleccionada = listCuentas.getSelectedValue();
+			System.out.println("Has seleccionado " + seleccionada.getNumeroCuenta());
+			btnEliminarCuenta.setEnabled(true);
 		}
 		
 	}
