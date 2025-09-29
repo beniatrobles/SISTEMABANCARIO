@@ -54,3 +54,23 @@ Todas las tablas están relacionadas mediante **claves foráneas** para garantiz
 1. Clona el repositorio:
    ```bash
    git clone https://github.com/tuusuario/sistema-bancario-java.git
+
+
+## Importar BBDD
+
+Dentro de la carpeta database esta el script para crear la bbdd con sus respectivas tablas
+
+## Configurar la conexion
+
+En src/conexion/Conexion.java configurar la conexion con la BBDD. 
+```bash
+Connection cn = DriverManager.getConnection(
+    "jdbc:mysql://localhost/bd_sistema_bancario", "root", ""
+); 
+````
+Aqui cambiar los parametros con la ruta , usuario y contraseña.
+
+## Crear Usuario por defecto
+
+Cuando inicies la clase FRMLogin.java o exportes el proyecto como .jar, al iniciar la app se creara un usuario por defecto.
+
