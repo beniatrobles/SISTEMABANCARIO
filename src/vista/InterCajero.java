@@ -96,6 +96,8 @@ public class InterCajero extends JInternalFrame implements ActionListener {
 		btnRetirar.setBounds(227, 216, 129, 23);
 		getContentPane().add(btnRetirar);
 		setBounds(100, 100, 450, 300);
+		
+		this.setTitle("Cajero");
 
 		cargarComboCuentas();
 
