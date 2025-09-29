@@ -97,6 +97,7 @@ public class FrmMenu extends JFrame implements ActionListener {
 
 		mntmVerTransferencias = new JMenuItem("Ver Transferencias");
 		mntmVerTransferencias.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+		mntmVerTransferencias.addActionListener(this);
 		mnTransferencias.add(mntmVerTransferencias);
 
 		mnCajero = new JMenu("Cajero");
@@ -143,6 +144,14 @@ public class FrmMenu extends JFrame implements ActionListener {
 			InterTransferencia interTrans = new InterTransferencia();
 			escritorio.add(interTrans);
 			interTrans.setVisible(true);
+		}
+		
+		if(e.getSource() == mntmVerTransferencias) {
+			
+			InterVerTrans interVer = new InterVerTrans();
+			escritorio.add(interVer);
+			interVer.setVisible(true);
+			
 		}
 
 	}
